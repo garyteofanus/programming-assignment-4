@@ -101,8 +101,12 @@ def search():
     elif request.method == "POST" and search_form.validate_on_submit():
         option = search_form.option.data
         if option == "name":
-            data = database.searchByName(search_form.searched.data)
-            return render_template('search.html', form=search_form, data=data)
+            if search_form.searched.data == "*":
+                data = database.collection.values()
+                return render_template('search.html', form=search_form, data=data)
+            else:
+                data = database.searchByName(search_form.searched.data)
+                return render_template('search.html', form=search_form, data=data)
         elif option == "type":
             data = database.searchByType(search_form.searched.data)
             return render_template('search.html', form=search_form, data=data)
@@ -124,25 +128,31 @@ def add():
         url = add_form.url.data
         if database.add(name, type, prov, url) == 1:
             return render_template('add.html', name=name, form=add_form)
+        elif database.add(name, type, prov, url) == "invalid":
+            return render_template('add.html', form=add_form, error="At least one letter is required")
         else:
             return render_template('add.html', name=name, form=add_form, why="is found, cant make a duplicate object")
     return render_template("add.html", error="Data is invalid! Please try again!", form=add_form)
+
 
 # Implementation of change function
 @app.route('/change.html', methods=['GET', 'POST'])
 def change():
     change_form = EditForm()
     if request.method == "GET":
-        return render_template('change.html', form  =change_form)
+        return render_template('change.html', form=change_form)
     elif request.method == "POST" and change_form.validate_on_submit():
         name = change_form.name.data
         type = change_form.type.data
         prov = change_form.prov.data
         url = change_form.url.data
-        if database.ubah(name, type, prov, url) == 1:
+        if database.change(name, type, prov, url) == 1:
             return render_template('change.html', name=name, form=change_form)
+        elif database.add(name, type, prov, url) == "invalid":
+            return render_template('add.html', form=change_form, error="At least one letter is required")
         else:
             return render_template('change.html', name=name, form=change_form, why="is not found, cant change a null object")
+    return render_template("change.html", error="Data is invalid! Please try again!", form=change_form)
 
 
 # Implementation of delete function

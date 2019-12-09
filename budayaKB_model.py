@@ -6,6 +6,7 @@ Contains two classes:
 """
 
 import csv
+import string
 
 """
 class BudayaItem
@@ -98,7 +99,7 @@ class BudayaCollection(object):
         result = []
 
         for item in self.collection:
-            if aName.strip().lower() in item.lower():
+            if aName.strip().lower() in item.lower() and string.punctuation in aName.strip():
                 result.append(self.collection[item])
 
         return result
@@ -108,7 +109,7 @@ class BudayaCollection(object):
         result = []
 
         for item in self.collection.values():
-            if aType.strip().lower() in item.type.lower():
+            if aType.strip().lower() in item.type.lower() and string.punctuation in aType.strip():
                 result.append(item)
 
         return result
@@ -118,7 +119,7 @@ class BudayaCollection(object):
         result = []
 
         for item in self.collection.values():
-            if aProv.strip().lower() in item.prov.lower():
+            if aProv.strip().lower() in item.prov.lower() and string.punctuation in aProv.strip():
                 result.append(item)
 
         return result
@@ -130,6 +131,8 @@ class BudayaCollection(object):
         """
 
         if aName not in self.collection:
+            if string.ascii_letters not in aName:
+                return "invalid"
             new_budaya_item = BudayaItem(aName.strip(), aType.strip(), aProv.strip(), anURL.strip())
             self.collection[aName] = new_budaya_item
             return 1
@@ -148,13 +151,15 @@ class BudayaCollection(object):
         else:
             return 0
 
-    def ubah(self, aName, aTipe, aProv, anURL):
+    def change(self, aName, aTipe, aProv, anURL):
         """
         To update a data in the collection of BudayaItem
         return 1 if the data to be updated is in the collection and the update has been done
         return 0 if the old data with the same key (name) does not exist
         """
         if aName in self.collection:
+            if string.ascii_letters not in aName:
+                return "invalid"
             new_budaya_item = BudayaItem(aName.strip(), aTipe.strip(), aProv.strip(), anURL.strip())
             self.collection[aName] = new_budaya_item
             return 1
