@@ -134,11 +134,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-<<<<<<< HEAD
-=======
-.gitignore
->>>>>>> 2d6bc245e01e078e9d890f783d4d21a0b406b82a
 Procfile
 TP4.pdf
 dataSmall.csv
 databudaya.csv
+TP4_C_YAS_1906400160_TeofanusGarySetiawan.zip
