@@ -10,14 +10,13 @@ app = Flask(__name__)
 app.secret_key = "tp4"
 
 # Initialize model object
-databasefilename = ""
 database = BudayaCollection()
 
 
 class ImportForm(FlaskForm):
     """Form used for import function"""
     filename = FileField('File Name', validators=[FileRequired()], render_kw={'class': "file-input"})
-    submit = SubmitField('Import Data', render_kw={'class': "button is-fullwidth is-hover is-primary "})
+    submit = SubmitField('Import', render_kw={'class': "button is-fullwidth is-hover is-primary "})
 
 
 class EditForm(FlaskForm):
@@ -33,13 +32,13 @@ class SearchForm(FlaskForm):
     """Form used for search function"""
     option = SelectField(choices=[('name', 'Name'), ('type', 'Type'), ('prov', 'Province')], validators=[InputRequired()], render_kw={'class': "input"})
     searched = StringField(validators=[InputRequired()], render_kw={'class': "input"})
-    submit = SubmitField('Submit', render_kw={'class': "button is-hover is-primary"})
+    submit = SubmitField('Search', render_kw={'class': "button is-hover is-primary"})
 
 
 class DeleteForm(FlaskForm):
     """Form used for delete function"""
     deleted = StringField('Name', validators=[InputRequired()], render_kw={'class': "input"})
-    submit = SubmitField('Delete', render_kw={'class': "button is-fullwidth is-hover is-danger", 'id': "confirmation"})
+    submit = SubmitField('Delete', render_kw={'class': "button is-fullwidth is-hover is-danger"})
 
 
 class StatisticsForm(FlaskForm):
@@ -47,6 +46,11 @@ class StatisticsForm(FlaskForm):
     shown = SelectField(choices=[('all', 'All'), ('type', 'Type'), ('prov', 'Province')], validators=[InputRequired()], render_kw={'class':'input'})
     submit = SubmitField('Show', render_kw={'class': 'button is-fullwidth is-hover is-primary'})
 
+
+class ExportForm(FlaskForm):
+    """FOrm used for export function"""
+    filename = StringField("Filename", validators=[InputRequired()], render_kw={'class': "input"})
+    submit = SubmitField('Export', render_kw={'class': "button is-hover is-primary is-fullwidth"})
 
 # Render out the default HTML, index.html
 @app.route('/')
@@ -122,7 +126,7 @@ def add():
             return render_template('add.html', name=name, form=add_form)
         else:
             return render_template('add.html', name=name, form=add_form, why="is found, cant make a duplicate object")
-
+    return render_template("add.html", error="Data is invalid! Please try again!", form=add_form)
 
 # Implementation of change function
 @app.route('/change.html', methods=['GET', 'POST'])
@@ -157,10 +161,13 @@ def delete():
 
 @app.route('/export.html', methods=['GET', 'POST'])
 def export():
+    export_form = ExportForm()
     if request.method == "GET":
-        return render_template("export.html")
-    if request.method == "POST":
-        pass
+        return render_template("export.html", form=export_form)
+    if request.method == "POST" and export_form.validate_on_submit():
+        filename = export_form.filename.data
+        database.exportToCSV(filename)
+        return render_template("export.html", form=export_form, filename=filename)
 
 
 # Run main app

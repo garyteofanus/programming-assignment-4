@@ -14,6 +14,12 @@
             <button class="delete"></button>
             {{ name }} added successfully
         </div>
+    {% elif error is defined %}
+        <br>
+        <div class="notification is-danger">
+            <button class="delete"></button>
+            {{error}}
+        </div>
     {% endif %}
     <script>
         document.addEventListener('DOMContentLoaded', () => {

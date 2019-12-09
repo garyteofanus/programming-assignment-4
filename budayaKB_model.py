@@ -83,6 +83,7 @@ class BudayaCollection(object):
         To export the data from a BudayaCollection object to a CSV file
         return None
         """
+        fileName = fileName + ".csv"
         fh = open(fileName, "w")
         resultStr = ""
 
