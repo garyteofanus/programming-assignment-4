@@ -1,0 +1,42 @@
+{% extends'layout.html' %}
+{% block body %}
+    <h1 class="title is-4 has-text-centered has-text-weight-bold">Delete Criteria</h1>
+    <hr class="navbar-divider">
+    {% if why is defined %}
+        <br>
+        <div class="notification is-warning">
+            <button class="delete"></button>
+            "{{ deleted }}" {{ why }}
+        </div>
+    {% elif deleted is defined %}
+        <br>
+        <div class="notification is-success">
+            <button class="delete"></button>
+            {{ deleted }} deleted successfully
+        </div>
+    {% endif %}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+                $notification = $delete.parentNode;
+                $delete.addEventListener('click', () => {
+                    $notification.parentNode.removeChild($notification);
+                });
+            });
+        });
+    </script>
+    <label class="label">{{ form.deleted.label }}</label>
+    <form method="post">
+        {{ form.csrf_token }}
+        <div class="field">
+            <div class="control is-expanded">
+                    {{ form.deleted }}
+            </div>
+        </div>
+        <div class="field">
+            <div class="control">
+                {{ form.submit }}
+            </div>
+        </div>
+    </form>
+{% endblock %}

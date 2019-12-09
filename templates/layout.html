@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BudayaKB Lite</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <script src="https://d3js.org/d3-color.v1.min.js"></script>
+    <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <script src="/static/index.js"></script>
+</head>
+<body class="has-navbar-fixed-top">
+    <section class="section is-fluid">
+        <nav class="navbar is-fixed-top is-primary">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="/">Home</a>
+            </div>
+            <div class="navbar-menu">
+                <div class="navbar-start">
+                    <a href="import.html" class="navbar-item">Import</a>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link">Edit</a>
+                        <div class="navbar-dropdown">
+                            <a href="add.html" class="navbar-item">Add</a>
+                            <a href="change.html" class="navbar-item">Change</a>
+                            <a href="delete.html" class="navbar-item">Delete</a>
+                        </div>
+                    </div>
+                    <a href="search.html" class="navbar-item">Search</a>
+                    <a href="statistics.html" class="navbar-item">Statistics</a>
+                    <a href="export.html" class="navbar-item">Export</a>
+                </div>
+            </div>
+        </nav>
+        {% block body %}
+        {% endblock %}
+        <footer class="section footer">
+            <div class="content has-text-centered">
+            <p>
+                <strong>TP4</strong> made with <span class="icon"><i class="fas fa-poop"></i></span> by <a href="https://linkedin.com/in/teofanusgarysetiawan" target="_blank">Teofanus Gary</a>.
+            </p>
+            </div>
+        </footer>
+    </section>
+</body>
+</html>

@@ -1,0 +1,46 @@
+{% extends'layout.html' %}
+{% block body %}
+    <h1 class="title is-4 has-text-centered">Search Criteria</h1>
+    <hr class="navbar-divider">
+    <form method="post">
+        {{ form.csrf_token }}
+        <div class="field has-addons">
+            <div class="control">
+                <div class="select">
+                    {{ form.option }}
+                </div>
+            </div>
+            <div class="control is-expanded">
+                {{ form.searched }}
+            </div>
+            <div class="control is-fullwidth">
+                {{ form.submit }}
+            </div>
+        </div>
+    <br>
+    </form>
+    {% if data is defined %}
+        <div class="table-container">
+            <table class="table is-hoverable is-striped is-fullwidth">
+                <thead>
+                    <tr>
+                        <th class="has-text-centered">Name</th>
+                        <th class="has-text-centered">Type</th>
+                        <th class="has-text-centered">Province</th>
+                        <th class="has-text-centered">URL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for value in data %}
+                        <tr>
+                            <td class="has-text-centered">{{ value.name }}</td>
+                            <td class="has-text-centered">{{ value.type }}</td>
+                            <td class="has-text-centered">{{ value.prov }}</td>
+                            <td class="has-text-centered"><a href="{{ value.url }}" target="_blank">{{ value.url }}</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+{% endblock %}
